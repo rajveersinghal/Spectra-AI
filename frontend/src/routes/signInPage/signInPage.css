@@ -1,10 +1,100 @@
 /* src/routes/signInPage/signInPage.css */
 
+/* ======================================= */
+/* MAIN LAYOUT & INTERACTIVE BACKGROUND */
+/* ======================================= */
 .signInPage {
+  min-height: 100vh;
+  width: 100vw;
+  
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'arial', sans-serif;
-  padding: 10px;
-  overflow-y: auto; /* Keeps consistency with sign-up page */
+  font-family: 'Inter', sans-serif;
+  padding: 20px;
+  overflow: hidden; 
+  box-sizing: border-box;
+  position: relative;
+  
+  background-color: var(--bg-secondary);
+  
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+/* 🌀 ORBITAL BACKGROUND ELEMENT (From Homepage) */
+.orbital-bg-sign-in {
+  position: absolute;
+  z-index: 0 !important;
+  pointer-events: none;
+  width: 100vw;
+  max-width: 600px;
+  opacity: 0.9; /* Making it much fainter than the homepage version */
+  top: -100px;
+  right: -150px;
+  animation: rotateOrbital 40s linear infinite reverse; /* Slower, reverse rotation */
+  transform-origin: center;
+}
+
+/* * The Interactive Background Effect: Glowing radial gradient following the cursor */
+.signInPage.interactive-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1; 
+  opacity: 0.8; 
+  
+  /* Radial gradient centered at the dynamic mouse coordinates */
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    var(--accent-primary-faint, rgba(186, 166, 34, 0.25)), 
+    transparent 80%
+  );
+  
+  animation: subtlePulse 30s infinite alternate;
+}
+
+/* ======================================= */
+/* CLERK WIDGET STYLING */
+/* ======================================= */
+/* Ensure the Clerk form sits on top of the gradient */
+.cl-signIn {
+    z-index: 10;
+}
+
+.cl-card {
+    background-color: var(--bg-primary, #fff) !important; 
+}
+
+
+/* ======================================= */
+/* KEYFRAMES (Reused from Homepage) */
+/* ======================================= */
+
+/* Subtle background pulse animation */
+@keyframes subtlePulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.8; }
+}
+
+/* Orbital rotation keyframe */
+@keyframes rotateOrbital {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ======================================= */
+/* RESPONSIVE STYLES */
+/* ======================================= */
+@media screen and (max-width: 768px) {
+    .orbital-bg-sign-in {
+        max-width: 400px;
+        top: 0;
+        right: -100px;
+    }
 }

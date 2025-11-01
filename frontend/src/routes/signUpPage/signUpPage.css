@@ -1,8 +1,104 @@
+/* src/routes/signUpPage/signUpPage.css (Final Animated Version) */
+
+/* ======================================= */
+/* MAIN LAYOUT & INTERACTIVE BACKGROUND */
+/* ======================================= */
 .signUpPage {
+  /* Full viewport dimensions for fullscreen effect */
+  min-height: 100vh;
+  width: 100vw;
+  
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'arial', sans-serif;
-  padding: 10px;
-  overflow-y: auto; /* Added for consistency */
+  /* Use Inter for theme consistency */
+  font-family: 'Inter', sans-serif; 
+  padding: 20px;
+  overflow: hidden; /* Crucial for controlling animated background elements */
+  box-sizing: border-box;
+  position: relative; /* Context for absolute positioning */
+  
+  background-color: var(--bg-secondary);
+  
+  /* Fallback CSS variables for interactive effect */
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+}
+
+/* 🌀 ORBITAL BACKGROUND ELEMENT (Mimics Homepage) */
+.orbital-bg-sign-up {
+  position: absolute;
+  z-index: 0 !important; /* Keep it below everything */
+  pointer-events: none;
+  width: 100vw;
+  max-width: 600px;
+  opacity: 0.9; /* Fainter to avoid overpowering the form */
+  top: -100px;
+  right: -150px;
+  animation: rotateOrbital 40s linear infinite reverse; /* Subtle, continuous rotation */
+  transform-origin: center;
+}
+
+/* * The Interactive Background Effect: Glowing radial gradient following the cursor */
+.signUpPage.interactive-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1; /* Below the Clerk form (z-index: 10) */
+  opacity: 0.8; 
+  
+  /* Radial gradient centered at the dynamic mouse coordinates */
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    var(--accent-primary-faint, rgba(186, 166, 34, 0.25)), /* Use accent color for glow */
+    transparent 80%
+  );
+  
+  /* Adds a subtle breathing effect to the entire background */
+  animation: subtlePulse 30s infinite alternate;
+}
+
+/* ======================================= */
+/* CLERK WIDGET STYLING */
+/* ======================================= */
+/* Ensure the Clerk form sits on top of the gradient */
+.cl-signUp {
+    z-index: 10;
+}
+
+.cl-card {
+    /* Ensure the card is opaque */
+    background-color: var(--bg-primary, #fff) !important; 
+}
+
+
+/* ======================================= */
+/* KEYFRAMES */
+/* ======================================= */
+
+/* Subtle background pulse animation */
+@keyframes subtlePulse {
+  from { opacity: 0.8; }
+  to { opacity: 0.9; }
+}
+
+/* Orbital rotation keyframe */
+@keyframes rotateOrbital {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ======================================= */
+/* RESPONSIVE STYLES */
+/* ======================================= */
+@media screen and (max-width: 768px) {
+    .orbital-bg-sign-up {
+        max-width: 400px;
+        top: 0;
+        right: -100px;
+    }
 }
